@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="main.css" type="text/css">
+	<title>
+		Crosswordle # statistics
+	</title>
+</head>
+<body">
+
+<header>
+	<h1" id="main_header">Crosswordle statistics</h1>
+</header>
+<br>
+
+<div id="statImgs">
+</div>
+
+<script>
+	//
+	function addStatImg(rel_url) {
+  	var imgsContainer = document.getElementById("statImgs");
+		img = document.createElement("img");
+		img.src = rel_url;
+		imgsContainer.appendChild(img);
+		return img;
+	}
+
+	function insertJSON_CW_Data (data) {
+		console.log(data)
+		header_el = document.getElementById("main_header")
+		header_el.textContent = "Crosswordle statistics, round " +
+			data.round + " (" + data.date + ")";
+	}
+	//
+	window.onload=function() {
+		const uaDataIsMobile = window.navigator.userAgentData?.mobile
+
+		const isMobile = typeof uaDataIsMobile === 'boolean'
+	  	? uaDataIsMobile
+		  : window.matchMedia("(any-pointer:coarse)").matches;
+
+		if (isMobile) {
+			addStatImg("cw_stats_total_sols.png");
+			addStatImg("cw_stats_options_per_line.png");
+			addStatImg("cw_stats_word_stats_common.png");
+			addStatImg("cw_stats_word_stats_common2.png");
+			addStatImg("cw_stats_word_stats_other.png");
+		} else {
+			addStatImg("cw_stats_desktop.png");
+		}
+		
+		//
+		fetch("cw_data.json")
+			.then((response) => response.json())
+			.then(data => insertJSON_CW_Data(data));
+			
+	}
+</script>
+</body>
+</html>
