@@ -1,7 +1,11 @@
 body {
 	background-color:#000000;
 }
-header {
+#main_header {
 	font-size: xx-large;
-	color:#FFFFFF;
+	color: #FFFFFF;
+}
+#spoiler_header {
+	font-size: x-large;
+	color: #FF3333;
 }

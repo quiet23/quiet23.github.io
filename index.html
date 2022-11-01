@@ -9,52 +9,60 @@
 <body">
 
 <header>
-	<h1" id="main_header">Crosswordle statistics</h1>
+	<h1 id="main_header">Crosswordle statistics</h1>
+	<h1 id="spoiler_header">SPOILER ALERT:</h1>
 </header>
 <br>
 
 <div id="statImgs">
 </div>
 
+
 <script>
+
+	function getCurISODate() {
+		d = new Date();
+		year = d.getFullYear().toString();
+		month = (d.getMonth() + 1).toString().padStart(2, '0');
+		day = d.getDate().toString().padStart(2, '0');
+		dateStr = year + "-" + month + "-" + day;
+		return dateStr;
+	}
+	
 	//
 	function addStatImg(rel_url) {
   	var imgsContainer = document.getElementById("statImgs");
 		img = document.createElement("img");
-		img.src = rel_url;
+		img.src = rel_url + "_" + curDateStr + ".png";
 		imgsContainer.appendChild(img);
 		return img;
 	}
 
-	function insertJSON_CW_Data (data) {
-		console.log(data)
-		header_el = document.getElementById("main_header")
-		header_el.textContent = "Crosswordle statistics, round " +
-			data.round + " (" + data.date + ")";
-	}
 	//
 	window.onload=function() {
-		const uaDataIsMobile = window.navigator.userAgentData?.mobile
+		//
+		window.curDateStr = getCurISODate();
+		header_el = document.getElementById("main_header");
+		header_el.textContent = "Crosswordle statistics";
+		spoilerHeader_el = document.getElementById("spoiler_header");
+		spoilerHeader_el.textContent = "SPOILER ALERT: this is for the game round published at " + curDateStr + "!";
+
+		const uaDataIsMobile = window.navigator.userAgentData?.mobile;
 
 		const isMobile = typeof uaDataIsMobile === 'boolean'
 	  	? uaDataIsMobile
 		  : window.matchMedia("(any-pointer:coarse)").matches;
 
 		if (isMobile) {
-			addStatImg("cw_stats_total_sols.png");
-			addStatImg("cw_stats_options_per_line.png");
-			addStatImg("cw_stats_word_stats_common.png");
-			addStatImg("cw_stats_word_stats_common2.png");
-			addStatImg("cw_stats_word_stats_other.png");
+			addStatImg("cw_stats_total_sols");
+			addStatImg("cw_stats_options_per_line");
+			addStatImg("cw_stats_word_stats_common");
+			addStatImg("cw_stats_word_stats_common2");
+			addStatImg("cw_stats_word_stats_other");
 		} else {
-			addStatImg("cw_stats_desktop.png");
+			addStatImg("cw_stats_desktop");
 		}
-		
-		//
-		fetch("cw_data.json")
-			.then((response) => response.json())
-			.then(data => insertJSON_CW_Data(data));
-			
+	
 	}
 </script>
 </body>
